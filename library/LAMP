@@ -1,0 +1,50 @@
+---
+- name: Basic LAMP Stack Setup
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Ensure the system is up to date
+      dnf:
+        name: "*"
+        state: latest
+        update_only: yes
+
+    - name: Install Apache
+      dnf:
+        name: httpd
+        state: present
+
+    - name: Enable and start Apache service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Install MySQL server
+      dnf:
+        name: mariadb-server
+        state: present
+
+    - name: Enable and start MySQL service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Install PHP and related modules
+      dnf:
+        name:
+          - php
+          - php-mysqlnd
+          - php-cli
+          - php-gd
+          - php-common
+          - php-xml
+          - php-mbstring
+        state: present
+
+    - name: Restart Apache service
+      service:
+        name: httpd
+        state: restarted
