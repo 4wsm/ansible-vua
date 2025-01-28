@@ -1,0 +1,14 @@
+---
+- name: Install Podman and create an Nginx container
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Podman
+      package:
+        name: podman
+        state: present
+
+    - name: Run Nginx container
+      command:
+        cmd: podman run -d --name nginx -p 80:80 nginx:latest
+        creates: /var/lib/containers/storage/overlay-containers/nginx

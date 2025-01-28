@@ -1,0 +1,12 @@
+---
+- name: Read the file and store it in a variable
+  hosts: all
+  tasks:
+    - name: Read file
+      slurp:
+        src: "/tmp/JohnDoe.txt"
+      register: student_file
+
+    - name: Display file content
+      debug:
+        msg: "{{ student_file['content'] | b64decode }}"

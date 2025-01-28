@@ -1,0 +1,11 @@
+---
+- name: Update system and clean duplicates
+  hosts: all
+  become: true
+  vars_files:
+    - ../secrets.yaml
+  tasks:
+    - name: Update all packages
+      ansible.builtin.yum:
+        name: "*"
+        state: latest

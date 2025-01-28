@@ -1,0 +1,1 @@
+ansible centos2 -m user -a "name=korisnik1 state=present groups=wheel append=yes create_home=yes" -b --ask-become-pass

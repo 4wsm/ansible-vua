@@ -1,0 +1,55 @@
+---
+- name: Install Nginx and Deploy App Locally
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Install Nginx and Git
+      dnf:
+        name:
+          - nginx
+          - git
+        state: present
+
+    - name: Clone the repository for the app
+      git:
+        repo: 'https://github.com/jstanesic/yaml-quiz'
+        dest: /var/www/html/yaml-quiz
+        version: master
+
+    - name: Set correct permissions on the app folder
+      file:
+        path: /var/www/html/yaml-quiz
+        owner: nginx
+        group: nginx
+        mode: '0755'
+        recurse: yes
+
+    - name: Create Nginx server block for the app
+      copy:
+        content: |
+          server {
+              listen 80;
+              server_name localhost;
+
+              root /var/www/html/yaml-quiz;
+              index index.html index.htm;
+
+              location / {
+                  try_files $uri $uri/ =404;
+              }
+          }
+        dest: /etc/nginx/conf.d/yaml-quiz.conf
+      notify: Restart Nginx
+
+    - name: Ensure Nginx is started and enabled
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted

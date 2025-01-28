@@ -1,0 +1,7 @@
+---
+serveri:
+  hosts:
+    centos1:
+      ansible_host: 10.10.69.196
+    centos2:
+      ansible_host: 10.10.68.215

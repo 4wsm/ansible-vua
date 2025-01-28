@@ -1,0 +1,9 @@
+---
+- name: Deploy public key to all hosts
+  hosts: all
+  tasks:
+    - name: Copy public SSH key
+      ansible.posix.authorized_key:
+        user: student
+        key: "{{ lookup('ansible.builtin.file', '~/.ssh/id_rsa.pub') }}"
+        state: present

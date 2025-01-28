@@ -1,0 +1,11 @@
+---
+grupa1:
+  hosts:
+    centos1:
+grupa2:
+  hosts:
+    centos2:
+grupa3:
+  children:
+    grupa1:
+    grupa2:

@@ -1,0 +1,13 @@
+---
+- name: Create a file with variable name
+  hosts: all
+  become: yes
+# vars_files:
+  # - "location"
+  vars:
+    variable_name: "JohnDoe"
+  tasks:
+    - name: Create file with variable name
+      copy:
+        content: "{{ variable_name }}"
+        dest: "/tmp/{{ variable_name }}.txt"
